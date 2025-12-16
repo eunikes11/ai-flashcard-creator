@@ -1,0 +1,37 @@
+# Dependencies
+node_modules/
+
+# API Keys and Configuration (NEVER commit these!)
+config.js
+
+# Environment files
+.env
+.env.local
+
+# Build outputs
+dist/
+build/
+*.exe
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE / Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# User data (personal flashcards)
+flashq-data/
+
+# Temporary files
+*.tmp
+.cache/

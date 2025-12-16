@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FlashQ - AI-Powered Flashcards</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>📚 FlashQ</h1>
+        <p class="subtitle">AI-Powered Flashcards for 5th Graders</p>
+      </header>
+
+      <!-- Main Navigation -->
+      <nav class="tabs">
+        <button class="tab-btn active" data-tab="create">
+          Create Flashcards
+        </button>
+        <button class="tab-btn" data-tab="study">Study</button>
+        <button class="tab-btn" data-tab="subjects">Subjects</button>
+        <button class="tab-btn" data-tab="manage">Manage Sets</button>
+      </nav>
+
+      <!-- Create Flashcards Tab -->
+      <section id="create-tab" class="tab-content active">
+        <div class="card">
+          <h2>Create New Flashcard Set</h2>
+
+          <form id="flashcard-form">
+            <div class="form-group">
+              <label for="subject">Subject *</label>
+              <div class="subject-select-wrapper">
+                <select id="subject" required>
+                  <option value="">-- Select or Create Subject --</option>
+                </select>
+                <button
+                  type="button"
+                  class="btn btn-secondary btn-sm"
+                  id="new-subject-btn"
+                >
+                  + New Subject
+                </button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="main-topic">Main Topic *</label>
+              <input
+                type="text"
+                id="main-topic"
+                required
+                placeholder="e.g., The Water Cycle"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="sub-topic">Sub Topic</label>
+              <input
+                type="text"
+                id="sub-topic"
+                placeholder="e.g., Evaporation Process"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="card-count">Number of Flashcards *</label>
+              <input
+                type="number"
+                id="card-count"
+                required
+                min="1"
+                max="50"
+                value="10"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="note-images">Upload Note Images *</label>
+              <input
+                type="file"
+                id="note-images"
+                accept="image/*"
+                multiple
+                required
+              />
+              <div id="image-preview" class="image-preview"></div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" id="generate-btn">
+              Generate Flashcards
+            </button>
+          </form>
+
+          <div id="progress-container" class="progress-container hidden">
+            <div class="progress-bar">
+              <div id="progress-bar-fill" class="progress-bar-fill"></div>
+            </div>
+            <p id="progress-text">Processing...</p>
+          </div>
+        </div>
+
+        <!-- Generated Flashcards Review -->
+        <div id="review-section" class="card hidden">
+          <h2>Review & Edit Flashcards</h2>
+          <div id="flashcards-review"></div>
+          <div class="button-group">
+            <button class="btn btn-primary" id="save-flashcards-btn">
+              Save Flashcard Set
+            </button>
+            <button class="btn btn-secondary" id="cancel-review-btn">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Study Tab -->
+      <section id="study-tab" class="tab-content">
+        <div class="card">
+          <h2>Select a Flashcard Set to Study</h2>
+          <div id="study-sets-list" class="sets-list"></div>
+        </div>
+
+        <!-- Study Mode -->
+        <div id="study-mode" class="card hidden">
+          <div class="study-header">
+            <h3 id="study-set-title"></h3>
+            <button class="btn btn-secondary btn-sm" id="exit-study-btn">
+              Exit
+            </button>
+          </div>
+
+          <div class="flashcard-container">
+            <div class="card-counter">
+              <span id="current-card-num">1</span> /
+              <span id="total-cards">0</span>
+            </div>
+
+            <div class="flashcard" id="flashcard">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <h3>Question</h3>
+                  <p id="question-text"></p>
+                </div>
+                <div class="flashcard-back">
+                  <h3>Answer</h3>
+                  <p id="answer-text"></p>
+                </div>
+              </div>
+            </div>
+
+            <button class="btn btn-flip" id="flip-btn">Flip Card</button>
+
+            <div class="navigation-btns">
+              <button class="btn btn-secondary" id="prev-btn">
+                ← Previous
+              </button>
+              <button class="btn btn-secondary" id="next-btn">Next →</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Manage Sets Tab -->
+      <section id="manage-tab" class="tab-content">
+        <div class="card">
+          <h2>Manage Flashcard Sets</h2>
+          <div id="manage-sets-list" class="sets-list"></div>
+        </div>
+      </section>
+
+      <!-- Subjects Tab -->
+      <section id="subjects-tab" class="tab-content">
+        <div class="card">
+          <h2>Manage Subjects</h2>
+          <div class="subject-stats" id="subject-stats"></div>
+          <div id="subjects-list" class="subjects-list"></div>
+        </div>
+      </section>
+    </div>
+
+    <!-- New Subject Modal -->
+    <div id="subject-modal" class="modal hidden">
+      <div class="modal-content">
+        <h3>Create New Subject</h3>
+        <div class="form-group">
+          <label for="new-subject-name">Subject Name *</label>
+          <input
+            type="text"
+            id="new-subject-name"
+            placeholder="e.g., Science, Math, History"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="subject-description">Description (optional)</label>
+          <textarea
+            id="subject-description"
+            placeholder="Brief description of this subject"
+            rows="3"
+          ></textarea>
+        </div>
+        <div class="button-group">
+          <button class="btn btn-primary" id="save-subject-btn">
+            Create Subject
+          </button>
+          <button class="btn btn-secondary" id="cancel-subject-btn">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

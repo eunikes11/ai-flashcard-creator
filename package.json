@@ -1,0 +1,40 @@
+{
+  "name": "flashq",
+  "version": "2.0.0",
+  "description": "AI-Powered Flash Card Desktop Application for 5th Grade Students",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "npx http-server . -p 8081 -o",
+    "build": "electron-builder"
+  },
+  "keywords": [
+    "flashcards",
+    "education",
+    "ai",
+    "ocr",
+    "electron"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "tesseract.js": "^5.0.4"
+  },
+  "devDependencies": {
+    "electron": "^28.3.3",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.flashq.app",
+    "productName": "FlashQ",
+    "win": {
+      "target": "nsis",
+      "icon": "icon.ico"
+    },
+    "files": [
+      "**/*",
+      "!node_modules/**/*",
+      "node_modules/tesseract.js/**/*"
+    ]
+  }
+}
